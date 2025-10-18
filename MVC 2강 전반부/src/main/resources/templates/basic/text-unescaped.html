@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- th:text 는 텍스트 사용 -->
+<h1>text vs utext</h1>
+<ul>
+    <li>th:text 사용시 escape 지원 <span th:text="${udata}"></span></li>
+    <li>th:utext 사용시 escape 미지원 <span th:utext="${udata}"></span></li>
+    <li th:inline="none">참고로 th:inline="none" 하면 그냥 텍스트 그대로 출력 </li>
+    <li th:inline="none">참고로 html태그는 th:inline="html" 이게 디폴트 스크립트 사용시에는 th:inline="javascript"</li>
+    <li><span th:inline="none"> [[..]] 의경우 이스케이프 지원 => </span>[[${udata}]]</li>
+    <li><span th:inline="none"> [(..)]] 의경우 이스케이프 미지원 => </span>[(${udata})]</li>
+</ul>
+</body>
+</html>

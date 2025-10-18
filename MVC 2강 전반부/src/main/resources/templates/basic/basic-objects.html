@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang="${#locale.language}">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>식 기본 객체 (Expression Basic Objects)</h1>
+<ul>
+    <li>request = <span th:text="${request}"></span></li>
+    <li>response = <span th:text="${response}"></span></li>
+    <li>session = <span th:text="${session}"></span></li>
+    <li>servletContext = <span th:text="${servletContext}"></span></li>
+    <li>locale = <span th:text="${#locale}"></span></li>
+    <li>#locale.language = <span th:text="${#locale.language}"></span></li>
+</ul>
+
+<h1>편의 객체</h1>
+<ul>
+    <li>Request Parameter 는 param 이란 변수에 자동 세팅 param.paramData (쿼리파라미터) => <span th:text="${param.paramData}"></span></li>
+    <li>Session도 session 이란 변수에 자동 세팅 session.sessionData ( 서버에서 sessionData라는 키 값으로 세션에 넣어준 것 ) => <span th:text="${session.sessionData}"></span></li>
+    <li>등록된 스프링 빈의 이름을 이용해 그 빈의 메서드 호출도 가능 @빈이름.메서드 예시는 @helloBean.hello() => <span th:text="${@helloBean.hello('Spring!!!')}"></span></li>
+</ul>
+</body>
+</html>

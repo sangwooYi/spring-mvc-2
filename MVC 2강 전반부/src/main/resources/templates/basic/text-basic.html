@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- th:text 는 텍스트 사용 -->
+<!-- <h1> 이런 태그에서 < 와 > 는 HTML 엔티티라고 부르며
+ 이 < 와  > 특수문자를 HTML 엔티티로 바꿔주는걸 이스케이프 (escape) 라고 부름 ( 즉 < 랑 > 도 그냥 문자로 인식시키는 것 )
+ th:text 는 기본적으로 이스케이프 지원, 따라서 아래처럼 < 랑 > 가 그대로 출려됨. 이걸 무시하려면 unescape 시켜야 함
+  이게 th:utext 인것 -->
+<h1>컨텐츠 출력</h1>
+<ul>
+    <li>기본적인 출력 법 <span th:text="${data}"></span></li>
+    <li>컨텐츠안에서 직접 출력하기 = [[${data}]]</li>
+    <li>HTML 엔티티가 여기선 그대로 출력 <span th:text="${udata}"></span></li>
+    <li>HTML 엔티티가 여기선 그대로 출력 = [[${udata}]]</li>
+</ul>
+</body>
+</html>

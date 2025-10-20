@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<ul>
+    <li>산술연산
+        <ul>
+            <!-- 숫자 리터럴 -->
+            <li>10 + 2 = <span th:text="10 + 2"></span></li>
+            <li>10 % 2 == 0 <span th:text="10 % 2 == 0"></span></li>
+        </ul>
+    </li>
+    <li>비교 연산
+        <!-- > 는 gt , >= 는 ge, < 는 lt, <= 는 le 이거로 기억하자
+            더불어서 ==는 eq, != 는 ne
+        -->
+        <li>1 > 10 = <span th:text="1 &gt; 10"></span></li>
+        <li>1 gt 10 = <span th:text="1 gt 10"></span></li>
+        <li>1 >= 10 = <span th:text="1 >= 10"></span></li>
+        <li>1 ge 10 = <span th:text="1 ge 10"></span></li>
+        <li>1 lt 10 = <span th:text="1 lt 10"></span></li>
+        <li>1 le 10 = <span th:text="1 le 10"></span></li>
+        <li>1 == 10 = <span th:text="1 == 10"></span></li>
+        <li>1 eq 10 = <span th:text="1 eq 10"></span></li>
+        <li>1 != 10 = <span th:text="1 != 10"></span></li>
+        <li>1 ne 10 = <span th:text="1 ne 10"></span></li>
+    </li>
+</ul>
+</body>
+</html>

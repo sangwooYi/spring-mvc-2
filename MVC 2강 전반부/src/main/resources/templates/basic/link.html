@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>URL 링크
+</h1>
+<ul>
+    <!-- (key1={var1}, .. ) 이런식으로 선언할 때 Path Variable 에 겹치는 변수명이 있다면 자동 바인딩, 그 외에는 알아서
+    쿼리 파라미터로 바뀜-->
+    <li><a th:href="@{/hello}">basic URL</a></li>
+    <li><a th:href="@{/hello(param1=${param1}, param2=${param2})}">query parameter mapping</a></li>
+    <li><a th:href="@{/hello/{param1}/{param2} (param1=${param1}, param2=${param2})}">Path Variable</a></li>
+    <li><a th:href="@{/hello/{param1}(param1=${param1}, param2=${param2})}">path variable + query parameter</a></li>
+</ul>
+</body>
+</html>

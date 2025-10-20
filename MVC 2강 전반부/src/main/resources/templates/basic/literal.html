@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>리터럴</h1>
+<ul>
+    <li>'hello' + ' world!' = <span th:text="'hello' + ' world'"></span></li>
+    <li>'hello ' + ${data} = <span th:text="'hello ' + ${data}"></span></li>
+    <!-- 리터럴이랑 변수값 (${} 라던가 @{} 라던가) 이랑 같이 써야되는 상황이면 그냥 리터럴 대체 쓰자 -->
+    <li>리터럴 대체 |hello ${data}| = <span th:text="|hello ${data}|"></span></li>
+</ul>
+</body>
+</html>

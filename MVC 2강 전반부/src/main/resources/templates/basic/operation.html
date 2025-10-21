@@ -28,6 +28,28 @@
         <li>1 != 10 = <span th:text="1 != 10"></span></li>
         <li>1 ne 10 = <span th:text="1 ne 10"></span></li>
     </li>
+    <li>조건식
+        <ul>
+            <li>
+                (10 % 2 == 0) ? '짝수' : '홀수' = <span th:text="(10 % 2 == 0) ? '짝수' : '홀수'"></span>
+            </li>
+        </ul>
+    </li>
+    <li>Elvis 연산자
+        <ul>
+            <!-- ${data} != null ? ${data} : '데이터가 없습니다' 같은거  -->
+            <li>${data}?: '데이터가 없습니다.' = <span th:text="${data}?: '데이터가 없습니다.'"></span></li>
+            <li>${nullData}?: '데이터가 없습니다.' = <span th:text="${nullData}?: '데이터가 없습니다.'"></span></li>
+        </ul>
+    </li>
+    <li>No-Operation
+        <ul>
+            <!-- _ 는 타임리프를 무시하는것 따라서 아래 코드는 ${data} 값이 있으면 ${data} 를
+            없으면 타임리프 무시하고 원래 태그에 꽃혀있는 값을 그대로 노출하라는 의미-->
+            <li>${data}?: _ = <span th:text="${data}?: _">데이터가 없습니다.</span></li>
+            <li>${nullData}?: _ = <span th:text="${nullData}?: _">데이터가 없습니다.</span></li>
+        </ul>
+    </li>
 </ul>
 </body>
 </html>

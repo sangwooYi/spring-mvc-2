@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>if - unless </h1>
+<table border="1">
+    <tr>
+        <th>count</th>
+        <th>username</th>
+        <th>age</th>
+    </tr>
+    <tr th:each="user, status : ${users}">
+        <td th:text="${status.count}"></td>
+        <td th:text="${user.username}"></td>
+        <td>
+            <span th:text="${user.age}"></span>
+            <!-- 한 태그안에 조건까지 전부 써줘야함 JSTL 이랑 유사 -->
+            <span th:text="'미자'" th:if="${user.age lt 20}"></span>
+            <span th:text="'성인'" th:unless="${user.age lt 20}"></span>
+        </td>
+    </tr>
+</table>
+
+<h1>switch</h1>
+<table border="1">
+    <tr>
+        <th>count</th>
+        <th>username</th>
+        <th>age</th>
+    </tr>
+    <tr th:each="user : ${users}">
+        <!-- 두번쨰변수 생략하면 userStat 으로 자동 할당 -->
+        <td th:text="${userStat.count}"></td>
+        <td th:text="${user.username}"></td>
+        <!-- switch - case 문법임 -->
+        <td th:switch="${user.age}">
+            <span th:case="10">10살</span>
+            <span th:case="20">20살</span>
+            <!-- default -->
+            <span th:case="*">기타요</span>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

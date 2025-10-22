@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html th:lang="${#locale.language}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>예시</h1>
+<span th:text="${data}">html data</span>
+<h1>1. 표준 HTML 주석</h1>
+<!--
+<span th:text="${data}">html data</span>
+-->
+
+<!-- 타임리프의 주석 기존  HTML 주석에서 안쪽에 /* */ 부분을 추가한 형태 -->
+<h1>2. 타임리프 파서 주석</h1>
+<!--/* [[${data}]] */-->
+
+<!--HTML 기본 주석은 소스코드에서 주석이 노출되므로, 가능하면 타임리프 파서 주석으로 주석처리 하자
+이 경우는 타임리프 서버 돌아가고나면 아예 소스코드에 없어져 있음 -->
+<!--/*--> <!--여기가 시작-->  <!--*/--> <!--여기가 종료-->
+<!-- 여러줄 주석 할 떄, 아래처럼 주석하면 22번째 줄이 무시됨-->
+<!--/*-->
+<span th:text="${data}">html data</span>
+<!--*/-->
+<!-- HTML 파일을 그대로 열때는 주석처리, 타임리프 돌리면 주석이 사라진채 지정된 태그가 렌더링 됨 -->
+<h1>3. 타임리프 프로토타입 주석</h1>
+<!--/*/
+<span th:text="${data}">html data</span>
+/*/-->
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>부분 포함</h1>
+<h2>부분 포함  insert </h2>
+
+<!-- 해당위치에 :: fragment 명칭 식으로 가쟈온다 copy / copyParam 으로 명칭 만들었으므로 각각 이렇게 가져오는것
++ 각 fragment에서 사용해야하는 변수있으면 아래와 같이 내려주면된다. -->
+
+<!-- th:insert 는 지정 태그 안에 fragment를 삽입해 주는것이고,
+th:replace 는 지정태그 자리에 fragment를 대체해 주는 것!! -->
+<!-- jsp에서 <jsp:include> 랑 유사한 역할 -->
+<div th:insert="~{template/fragment/footer :: copy}"></div>
+<h2>부분 포함 replace </h2>
+<div th:replace="~{template/fragment/footer :: copy}"></div>
+<h2>부분포함 단순 표현식</h2>
+<div th:replace="template/fragment/footer :: copy"></div>
+<h2>파라미터 사용</h2>
+<div th:replace="~{template/fragment/footer :: copyParam('데이터1', '데이터2')}"></div>
+
+<h2>내 테스트</h2>
+<div th:replace="~{template/fragment/footer :: testFrag('안녕하세요')}"></div>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="common_header(title,links)">
+    <!-- title 태그가 replace 됨 -->
+    <title th:replace="${title}">레이아웃 타이틀</title>
+    <!-- 공통 -->
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
+    <!-- 추가 -->
+    <!-- 앞에서 넘겨준 링크들이 여기에 알아서 들어가짐, 심지어 n 개 면 n개가 전부 -->
+    <th:block th:replace="${links}" />
+</head>

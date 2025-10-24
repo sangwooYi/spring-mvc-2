@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<!-- 조각 설정이 th:fragment="조각명 (변수들)" 형태 -->
+<!-- th:fragment로 설정한 조각을 th:replace / th:insert 를 활용해 조각을 꽂아주는것,
+추가적으로 변수나 태그를 넘길때는 그넘긴게 조각한테 데이터가 내려짐 -->
+<!-- 넘기는 쪽에서 어떻게 넘기던지 여기서 변수명을 설정하면 끝임 그냥 그위치에 넘겨준게 오는 것일 뿐 -->
+<html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:replace="${title}">레이아웃 타이틀</title>
+</head>
+<body>
+<h1>레이아웃 H1</h1>
+<div th:replace="${content}">
+    <p>레이아웃 컨텐츠</p>
+</div>
+<footer>
+    레이아웃 푸터
+</footer>
+</body>
+</html>

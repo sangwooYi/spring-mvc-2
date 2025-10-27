@@ -13,4 +13,16 @@ public enum ItemType {
     public String getDescription() {
         return description;
     }
+    
+    // Enum 테스트용
+    public static void main(String[] args) {
+        ItemType[] itemTypes = ItemType.values();
+
+        for (ItemType itemType : itemTypes) {
+            // .name() 은 그냥 애초에 Enum 명칭
+            System.out.println(itemType.name());
+            System.out.println(itemType.getDescription());
+        }
+
+    }
 }

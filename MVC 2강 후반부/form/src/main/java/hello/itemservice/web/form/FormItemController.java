@@ -27,13 +27,17 @@ public class FormItemController {
     // @ModelAttribute 어노테이션 통해서 해당 컨트롤러 공통으로 특정 Attribute 를 보내줄 수 있다!
     // @ModelAttribute 의 역할 1) RequestParam, Path Variable 값을 DTO 형태로 매핑
     //                         2) Response 에 Model에 특정 Attribute 를 추가해 줌 @ModelAttribute({변수명}) 형태
+    // 물론 메서드마다 일일히 .model 에 넣어줘도 되나, 공통적으로 쓸 값이 있다면 @ModelAttribute 활용하기
     @ModelAttribute("regions")
     public Map<String, String> regions() {
+        // LinkedHashMap 을 쓴 이유는 순서를 보장하기 위함
         Map<String, String> regions = new LinkedHashMap<>();
         regions.put("SEOUL", "서울");
         regions.put("GYONGI", "경기");
         regions.put("BUSAN", "부산");
         regions.put("JEJU", "제주");
+        // 이렇게 객체값을 return 해주면 @ModelAttribute("{변수명}") 에 지정해둔 변수명으로 알아서 이 객체가 
+        // Model 에 들어간다.
         return regions;
     }
 
@@ -77,9 +81,13 @@ public class FormItemController {
     @PostMapping("/add")
     public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
 
+        // Item 에서 form 에서 선택한 값들이 알아서 조립되어서 들어가 있다
+        // @ModelAttribute 덕분에!  ( 참고로 HTTP API 통한건 @RequestBody 이다! )
         log.info("item.open={}", item.getOpen());
+        // 화면에서 regions 쪽에서 선택한 태그들이 각각 전달되는데 스프링이 알아서 array 형태로 조합해준다!
         log.info("item.regions={}", item.getRegions());
         log.info("item.itemType={}", item.getItemType());
+        log.info("item.deliveryCode={}", item.getDeliveryCode());
 
         Item savedItem = itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", savedItem.getId());

@@ -38,7 +38,7 @@
         <div>판매 여부</div>
         <div>
             <div class="form-check">
-                <!-- checkbox는 id-for 가 같아야 매핑 됨 -->
+                <!-- checkbox는 id-for 가 같아야 매핑 됨  따라서 그냥 input 쓸떄 th:field 쓰면 된다 -->
                 <!-- th:field="*{aa}" 를 하면 id="aa", name="aa", value="{aa의 값}" 으로 자동 설정됨
                      체크박스인 경우는 + 히든필드까지 자동으로 추가-->
                 <input type="checkbox" id="open" th:field="*{open}" class="form-check-input">

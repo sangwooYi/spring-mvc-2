@@ -2,6 +2,7 @@ package hello.itemservice.validation.web.controller;
 
 import hello.itemservice.validation.domain.Item;
 import hello.itemservice.validation.domain.ItemRepository;
+import hello.itemservice.validation.web.ItemValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.ValidationUtils;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,6 +28,14 @@ import java.util.Map;
 public class ValidationControllerV2 {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+
+    // 초기에 바인더 설정
+    // 컨트롤러 호출 될 때 이 부분도 같이 호출
+    @InitBinder
+    public void init(WebDataBinder dataBinder) {
+        dataBinder.addValidators(itemValidator);
+    }
 
     @GetMapping("")
     public String items(Model model) {
@@ -54,6 +66,9 @@ public class ValidationControllerV2 {
             // DTO의 필드면 FieldError 쓰면 된다.
             bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
         }
+
+        // 참고 ValidationUtils 로 간단한 공백체크같은건 가능!
+        // ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "required");
 
         // null 값 체크 및 최소 최대값 체크
         if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
@@ -166,37 +181,6 @@ public class ValidationControllerV2 {
         log.info("objectName={}", bindingResult.getObjectName());
         log.info("target={}", bindingResult.getTarget());
 
-        // 검증 로직
-        // StringUtils.hasText(텍스트) 해당 텍스트가 빈값인지 체크
-        // return (str != null && !str.isBlank()); 가 로직
-        if (!StringUtils.hasText(item.getItemName())) {
-            // 인자로 객체 / 필드명 / 에러명 순으로 넣어주면 된다.
-            // DTO의 필드면 FieldError 쓰면 된다.
-            //bindingResult.addError(new FieldError("item", "itemName", "상품 이름은 필수입니다."));
-            bindingResult.addError(new FieldError("item", "itemName", item.getItemName(), false,  new String[]{"required.item.itemName"}, null, "상품 이름은 필수입니다."));
-        }
-
-        // null 값 체크 및 최소 최대값 체크
-        if (item.getPrice() == null || item.getPrice() < 1000 || item.getPrice() > 1000000) {
-            bindingResult.addError(new FieldError("item", "price", item.getPrice(), false, new String[]{"range.item.price"}, new Object[]{1000, 1000000},  "값은 1000원 이상 100만원까지 범위입니다."));
-            //bindingResult.addError(new FieldError("item", "price", "값은 1000원 이상 100만원까지 범위입니다."));
-        }
-
-        if (item.getQuantity() == null || item.getQuantity() > 9999) {
-            bindingResult.addError(new FieldError("item", "quantity", item.getQuantity(), false, new String[]{"max.item.quantity"}, new Object[]{9999},  "수량은 최대 9,999 까지입니다."));
-//            bindingResult.addError(new FieldError("item", "quantity", "수량은 최대 9,999 까지입니다."));
-        }
-
-        // 복합 룰 검증
-        if (item.getPrice() != null && item.getQuantity() != null) {
-            int totalCost = item.getPrice()*item.getQuantity();
-            if (totalCost < 10000) {
-                // 필드가 아닌 값으로 에러를 넘기려면 ObjectError 를 사용 ( FieldError 가 애초에 ObjectError 상속받은 친구임 )
-//              // 주의! ObjectError 에 objectName 은 사실 프론트에서는 크게 의미 X , 백엔드 유지보수 과정에 필요한 친구 따라서 의미있게 부여할 것
-                bindingResult.addError(new ObjectError("item",  "총 금액은 1만원이 넘어야 합니다. 현재 총 금액 = " + totalCost));
-                bindingResult.addError(new ObjectError("test",  "테스트테스트 = " + totalCost));
-            }
-        }
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
@@ -216,7 +200,7 @@ public class ValidationControllerV2 {
 
     // rejectValue() => FieldError 대체 
     // reject() 활용 => ObjectError 대체
-    @PostMapping("/add")
+    @PostMapping("/add/V4")
     public String addItemV4(@ModelAttribute Item item, BindingResult bindingResult,
                             RedirectAttributes redirectAttributes, Model model) {
 
@@ -261,6 +245,53 @@ public class ValidationControllerV2 {
                 bindingResult.reject("totalPriceMin", new Object[]{10000, totalCost} , "총 금액은 1만원이 넘어야 합니다. 현재 총 금액 = " + totalCost);
             }
         }
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+
+            // 굳이 모델에 담을 필요 X
+            return "validation/v2/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+
+        // 리다이렉트 때 attribute 할당 하는 방법, Path Variable 과 매핑되는 값은 자동으로 매핑,
+        // 나머지는 쿼리스트링 형태로 자동 세팅
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    @PostMapping("/add/V5")
+    public String addItemV5(@ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
+        // 검증 로직 이전
+        // bindingResult 는 참조형 오브젝트이므로 굳이 return 받을 필요가 없다! (이부분 잘 생각하자!)
+        itemValidator.validate(item, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+
+            // 굳이 모델에 담을 필요 X
+            return "validation/v2/addForm";
+        }
+
+        Item savedItem = itemRepository.save(item);
+
+        // 리다이렉트 때 attribute 할당 하는 방법, Path Variable 과 매핑되는 값은 자동으로 매핑,
+        // 나머지는 쿼리스트링 형태로 자동 세팅
+        redirectAttributes.addAttribute("itemId", savedItem.getId());
+        redirectAttributes.addAttribute("status", true);
+        return "redirect:/validation/v2/items/{itemId}";
+    }
+
+    // 체크할 DTO 앞에 @Validated 붙여주면
+    // 위에서 InitBinder 에 세팅한 검증기로 알아서 유효성 검사해줌!
+    @PostMapping("/add")
+    public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult,
+                            RedirectAttributes redirectAttributes, Model model) {
+
 
         if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);

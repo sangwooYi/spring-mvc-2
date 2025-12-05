@@ -1,28 +1,25 @@
 package hello.itemservice.validation.domain;
 
-// jakarta 는 어디서나 사용가능 ( 예전 javax 가 jakarta 로 상표명 바뀐거 )
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
 
-// 이건 hibernate validator 깔려있는 경우에만 사용 가능
-import org.hibernate.validator.constraints.Range;
 
 @Data
+@AllArgsConstructor
 public class Item {
 
+    //@NotNull(groups = UpdateCheck.class)    // 수정때만
     private Long id;
 
-    @NotBlank
+    //@NotNull(groups = {SaveCheck.class, UpdateCheck.class})    // 이건 null
+    //@NotBlank(groups = {SaveCheck.class, UpdateCheck.class})    // 이건 공백 주의 NotNull 은 Blank 체크는 못해준다.
     private String itemName;
 
-    @NotNull
-    @Range(min=1000, max=1000000)
+    //@NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    //@Range(min=1000, max=1000000,groups = {SaveCheck.class, UpdateCheck.class})
     private Integer price;
 
-    @NotNull
-    @Max(9999)
+    //@NotNull(groups = {SaveCheck.class, UpdateCheck.class})
+    //@Max(value = 9999, groups = SaveCheck.class)    // 저장때만
     private Integer quantity;
 
     public Item() {

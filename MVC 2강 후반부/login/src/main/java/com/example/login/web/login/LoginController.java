@@ -4,6 +4,9 @@ import com.example.login.domain.login.LoginForm;
 import com.example.login.domain.login.LoginService;
 import com.example.login.domain.member.Member;
 import com.example.login.domain.member.MemberRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,7 +30,20 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String login(@Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult) {
+    public String login(HttpServletRequest request, HttpServletResponse response,
+                            @Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult) {
+    
+        // 그냥 일반적으로 쿠키 받을때는 이렇게
+        Cookie[] cookies = request.getCookies();
+
+        for (Cookie cookie : cookies) {
+
+            if (cookie.getName().equals("memberId")) {
+                log.info("cookie Name = {}", cookie.getName() );
+                log.info("cookie Value = {}", cookie.getValue() );
+            }
+
+        }
 
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
@@ -40,8 +56,14 @@ public class LoginController {
             return "login/loginForm";
         }
 
-        log.info("로그인 성공 = {}", loginMember);
         // 로그인 성공
+        log.info("로그인 성공 = {}", loginMember);
+
+        // 세션 시간 값 (setMaxAge) 안정해주면 그냥 세션쿠키가 됨
+        Cookie cookie = new Cookie("memberId", String.valueOf(loginMember.getId()));
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
         return "redirect:/";
     }
 }

@@ -139,6 +139,8 @@ public class LoginController {
         // 없으면 신규로 생성해서 반환 (UUID  값으로)
         HttpSession session = request.getSession(); // true
 
+        log.info("session isNew = {}", session.isNew());
+
         // Map 형태이므로 key-value 형태로 여러 값 저장 가능하다.
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
         return "redirect:/";

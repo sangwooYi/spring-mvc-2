@@ -12,11 +12,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -109,7 +111,8 @@ public class LoginController {
     // HTTP 세션 사용
     @PostMapping("/login")
     public String loginV3(HttpServletRequest request, HttpServletResponse response,
-                          @Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult) {
+                          @Validated @ModelAttribute("loginForm") LoginForm form, BindingResult bindingResult,
+                          @RequestParam(defaultValue = "/") String redirectURL) {
 
         // 그냥 일반적으로 쿠키 받을때는 이렇게
         Cookie[] cookies = request.getCookies();
@@ -143,6 +146,8 @@ public class LoginController {
 
         // Map 형태이므로 key-value 형태로 여러 값 저장 가능하다.
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
-        return "redirect:/";
+
+        // 미인증 접근 후 로그인할 때 동적으로 url 할당!
+        return "redirect:" + redirectURL;
     }
 }

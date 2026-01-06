@@ -2,6 +2,7 @@ package com.example.login.web;
 
 import com.example.login.domain.member.Member;
 import com.example.login.domain.member.MemberRepository;
+import com.example.login.web.argumentResolver.Login;
 import com.example.login.web.session.SessionConst;
 import com.example.login.web.session.SessionManager;
 import jakarta.servlet.http.Cookie;
@@ -97,7 +98,7 @@ public class HomeController {
 
     // @SessionAttribute 사용. name 에 해당하는 key 값을 통해 해당 Key에 해당하는 세션값을 꺼내서 담아준다.
     // 주의할 점은 Value 값이 뭔지 잘 기억해야 함! ( 우리는 세션에 Member 를 담았으니까 아래처럼 선언이 가능 한 것 )
-    @GetMapping("/")
+    @GetMapping("/1231231231312")
     public String homeLoginV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 
         if (loginMember == null) {
@@ -109,6 +110,18 @@ public class HomeController {
         return "loginHome";
     }
 
+    // ArgumentResolver 를 재정의하여 아래처럼 간단하게 설정도 가능하다.
+    @GetMapping("/")
+    public String homeLoginV4ArgumentResolver(@Login Member loginMember, Model model) {
+
+        if (loginMember == null) {
+            return "home";
+        }
+
+        model.addAttribute("member", loginMember);
+
+        return "loginHome";
+    }
 
     @PostMapping("/logout22")
     public String logout(HttpServletRequest request, HttpServletResponse response) {

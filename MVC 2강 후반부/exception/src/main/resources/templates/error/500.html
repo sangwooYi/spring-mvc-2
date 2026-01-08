@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link th:href="@{/css/bootstrap.min.css}">
+</head>
+<body>
+    <div class="container" style="max-width: 600px">
+        <div class="py-5 text-center">
+            <h2>500 오류 화면</h2>
+        </div>
+        <div>
+            <p>스프링 기본 제공  500 오류 화면 입니다.</p>
+        </div>
+        <ul>
+            <li>기본 제공 오류정보</li>
+            <ul>
+                <li th:text="|timestamp = ${timestamp}|"></li>
+                <li th:text="|path = ${path}|"></li>
+                <li th:text="|status = ${status}|"></li>
+                <li th:text="|message = ${message}|"></li>
+                <li th:text="|error = ${error}|"></li>
+                <li th:text="|exception = ${exception}|"></li>
+                <li th:text="|errors = ${errors}|"></li>
+                <li th:text="|trace = ${trace}|"></li>
+                <li>message, excetpion, erros, trace 정보는 application.properties 에서 필요하면
+                노출 되도록 설정해서 사용 ( 기본값은 항상 미노출상태임 ) </li>
+            </ul>
+        </ul>
+        <hr class="my-4">
+    </div> <!-- /container -->
+</body>
+</html>

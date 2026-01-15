@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form th:object="${formData}" th:method="post" th:action>
+        <!-- th:field 는 컨버터 자동으로 적용 해 준다.
+         적용 안시키리면 value 사용해야 함 -->
+        number th:field : <input type="text" th:field="*{number}" > <br>
+        number th:value : <input type="text" th:value="*{number}"> <br>
+
+        localDateTime th:field : <input type="text" th:field="*{localDateTime}" > <br>
+        localDateTime th:value : <input type="text" th:value="*{localDateTime}">
+        <button type="submit">제출</button>
+    </form>
+</body>
+</html>

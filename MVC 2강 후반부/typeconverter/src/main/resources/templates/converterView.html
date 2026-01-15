@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h3>컨버터 테스트</h3>
+
+    <div>
+        ${ip} 컨버터 미적용 <br>
+        ${{ip}} 이건 컨버터 적용 ( {{}} 로 감싸주면 자동으로 컨버터가 적용 된다. )
+    </div>
+    <p th:text="|number = ${number}|">숫자 변환</p>
+    <p th:text="|number 컨버터 적용 = ${{number}}|"></p>
+    <div th:object="${ipPort}">
+        <h4>객체 변환</h4>
+        <p th:text="|ip = *{ip}|"></p>
+        <p th:text="|port = *{port}|"></p>
+    </div>
+    <p th:text="|ipPort 컨버터 적용 ${{ipPort}}|"></p>
+</body>
+</html>

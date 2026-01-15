@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -36,10 +37,17 @@ public class ApiExceptionController {
     public String responseStatusEx1() {
         throw new BadRequestException("Bad Request 예외 발생!");
     }
+
     @GetMapping("/api/response-status-ex2")
     public String responseStatusEx2() {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, "error.bad", new IllegalArgumentException());
     }
+
+    @GetMapping("/api/default-handler-ex")
+    public String defaultHandler(@RequestParam Integer data) {
+        return "OK";
+    }
+
     // 임시 DTO 내부클래스에 선언 (테스트용)
     @Data
     @AllArgsConstructor

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+    <style>
+        li {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>상품 등록 폼</h2>
+        </div>
+
+        <h4 class="mb-3">상품 입력</h4>
+
+        <!-- 파일첨부하려면 enctype="multipart/form-data" 반드시 명시해 줘야 한다.  -->
+        <form method="post" enctype="multipart/form-data" th:action>
+            <ul>
+                <li>상품명 <input type="text" name="itemName"></li>
+                <li>첨부파일 <input type="file" name="attachFile"></li>
+                <!-- 이러면 여러개 첨부 가능 multiple 속성 이용 -->
+                <li>이미지 파일들 <input type="file" name="imageFiles" multiple="multiple"></li>
+            </ul>
+            <button type="submit">제출요</button>
+        </form>
+    </div>
+</body>
+</html>
